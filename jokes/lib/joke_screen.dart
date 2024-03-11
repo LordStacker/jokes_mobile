@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'data_source.dart';
 import 'joke_dto.dart';
+import 'avatar.dart';
 
 class JokePage extends StatefulWidget {
   const JokePage({super.key});
@@ -33,15 +34,33 @@ class _JokePageState extends State<JokePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Jokes")),
-      body: Column(
-        children: [
-          if (joke == null) const CircularProgressIndicator(),
-          if (joke?.joke != null) Text(joke!.joke!),
-          if (joke?.setup != null) Text(joke!.setup!),
-          if (joke?.delivery != null) Text(joke!.delivery!),
-          TextButton(onPressed: _loadJoke, child: const Text("Show another")),
-        ],
+      appBar: AppBar(title: const Text("Meow Joker")),
+      body: Center(
+        child:
+          joke != null
+              ? Stack(
+            children: [
+              ListView(children: [
+                Avatar(id: "${joke?.id}"),
+                const SizedBox(height: 8),
+                if (joke?.joke != null) Text(joke!.joke!, textAlign: TextAlign.center, style: TextStyle(fontSize: 22)),
+                if (joke?.setup != null) Text(joke!.setup!, textAlign: TextAlign.center, style: TextStyle(fontSize: 22)),
+                if (joke?.delivery != null) Text(joke!.delivery!, textAlign: TextAlign.center, style: TextStyle(fontSize: 22)),
+                const SizedBox(height: 8)
+              ]),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: _loadJoke,
+                  child: const Text(
+                    "Meow",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+              )
+            ],
+          )
+              : const CircularProgressIndicator(),
       ),
     );
   }
